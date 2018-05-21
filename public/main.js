@@ -39,7 +39,7 @@ socket.on('user-coords', (data) => {
 
     var icon = {
         url: "http://www.chattanoogasciencefair.org/wp-content/uploads/american-kennel-club-canine-health-foundation-clipart-best-dog-paw-print-clip-art.png", // url
-        scaledSize: new google.maps.Size(10, 15), // scaled size
+        scaledSize: new google.maps.Size(20, 25), // scaled size
         origin: new google.maps.Point(0, 0), // origin
         anchor: new google.maps.Point(0, 0) // anchor
     };
@@ -51,6 +51,7 @@ socket.on('user-coords', (data) => {
         title: 'User ' + data.who
     });
 
+    map.setZoom(14);
     map.panTo(_position);
 });
 
@@ -85,7 +86,7 @@ function initMap() {
     var uluru = { lat: -23.268345, lng: -47.2875018 };
 
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 9,
+        zoom: 15,
         center: uluru
     });
 }
