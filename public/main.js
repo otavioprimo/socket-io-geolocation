@@ -7,6 +7,9 @@ let intervalCoords = null;
 let map = null;
 let marker = null;
 
+let last_coordinates = [];
+var polyline = null;
+
 $("title").text(`User ${myid}`);
 
 //Assim que o usuario connecta, envia o token do request dele, para identificar dentro da api ** Apenas uma simulação
@@ -34,6 +37,8 @@ socket.on('user-coords', (data) => {
 
     //Map
     var _position = { lat: data.latitude, lng: data.longitude };
+    last_coordinates.push({ lat: data.latitude, lng: data.longitude });
+
     if (marker)
         marker.setMap(null);
 
@@ -51,8 +56,18 @@ socket.on('user-coords', (data) => {
         title: 'User ' + data.who
     });
 
-    map.setZoom(14);
-    map.panTo(_position);
+    polyline = new google.maps.Polyline({
+        path: last_coordinates,
+        geodesic: true,
+        strokeColor: '#078ff7',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+    });
+
+    polyline.setMap(map);
+
+    // map.setZoom(14);
+    // map.panTo(_position);
 });
 
 //Cria Latitude e longitude aleatorios e envia pro usuario escolhido
@@ -86,7 +101,7 @@ function initMap() {
     var uluru = { lat: -23.268345, lng: -47.2875018 };
 
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
+        zoom: 12,
         center: uluru
     });
 }
